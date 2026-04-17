@@ -1,4 +1,4 @@
-import 'package:cine_vault/screens/home.dart';
+import 'package:cine_vault/screens/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_vault/theme/theme.dart';
 
@@ -13,7 +13,7 @@ class CineVault extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CineVault',
-      home: HomeScreen(),
+      home: MainScreen(),
       theme: CineTheme.darkTheme,
     );
   }
