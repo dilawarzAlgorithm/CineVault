@@ -22,7 +22,7 @@ class CineItem {
   final String posterUrl;
   final String year;
   final double rating;
-  final DateTime released;
+  final String released;
   final String runtime;
   final String genre;
   final String language;
@@ -37,7 +37,7 @@ class CineItem {
       posterUrl: json['Poster'] ?? '',
       year: json['Year'] ?? '',
       rating: double.tryParse(json['imdbRating'] ?? '0.0') ?? 0.0,
-      released: DateTime.tryParse(json['Released']) ?? DateTime(0000),
+      released: json['Released'] ?? 'N/A',
       runtime: json['Runtime'] ?? '0 min',
       genre: json['Genre'] ?? '',
       language: json['Language'] ?? '',

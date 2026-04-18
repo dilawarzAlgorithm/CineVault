@@ -5,6 +5,7 @@ import 'package:cine_vault/strategy/i_search_strategy.dart';
 class TitleSearchStrategy extends ISearchStrategy {
   @override
   Future<List<CineItem>> search(String query, IRemoteDataSource api) async {
-    return <CineItem>[];
+    final list = await api.fetchData('s=$query');
+    return list;
   }
 }
