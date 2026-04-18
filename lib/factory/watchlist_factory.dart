@@ -1,4 +1,4 @@
-import 'package:cine_vault/entity/watchlist.dart';
+import 'package:cine_vault/model/watchlist.dart';
 import 'package:uuid/uuid.dart';
 
 class WatchlistFactory {

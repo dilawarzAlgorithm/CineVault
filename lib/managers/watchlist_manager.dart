@@ -1,5 +1,5 @@
-import 'package:cine_vault/entity/cine_item.dart';
-import 'package:cine_vault/entity/watchlist.dart';
+import 'package:cine_vault/model/cine_item.dart';
+import 'package:cine_vault/model/watchlist.dart';
 import 'package:cine_vault/repository/cine_repository.dart';
 
 class WatchlistManager {

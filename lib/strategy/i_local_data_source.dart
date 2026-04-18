@@ -1,4 +1,4 @@
-import 'package:cine_vault/entity/watchlist.dart';
+import 'package:cine_vault/model/watchlist.dart';
 
 abstract class ILocalDataSource {
   void saveList(Watchlist list);

@@ -1,4 +1,4 @@
-import 'package:cine_vault/entity/cine_item.dart';
+import 'package:cine_vault/model/cine_item.dart';
 
 class Watchlist {
   Watchlist({required this.listId, required this.name, required this.items});

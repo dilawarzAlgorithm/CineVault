@@ -1,9 +1,10 @@
 import 'package:cine_vault/screens/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cine_vault/theme/theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const CineVault());
+  runApp(const ProviderScope(child: CineVault()));
 }
 
 class CineVault extends StatelessWidget {
