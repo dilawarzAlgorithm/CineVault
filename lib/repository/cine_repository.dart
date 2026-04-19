@@ -23,11 +23,11 @@ class CineRepository {
     return searchStrategy.search(query, api);
   }
 
-  void saveWatchlist(Watchlist list) {
-    db.saveList(list);
+  Future<void> saveWatchlist(Watchlist list) async {
+    await db.saveList(list);
   }
 
-  Watchlist loadWatchlist(String listId) {
-    return db.loadList(listId);
+  Future<Watchlist?> loadWatchlist(String listId) async {
+    return await db.loadList(listId);
   }
 }

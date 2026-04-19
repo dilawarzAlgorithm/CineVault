@@ -100,7 +100,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       color: Colors.redAccent,
                     ),
                     onPressed: () {
-                      // TODO: Add to Watchlist later!
+                      ref.read(watchlistProvider.notifier).addCineItem(movie);
                       ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

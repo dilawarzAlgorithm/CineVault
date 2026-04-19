@@ -1,5 +1,7 @@
 import 'package:cine_vault/managers/api_manager.dart';
 import 'package:cine_vault/managers/persistence_manager.dart';
+import 'package:cine_vault/managers/watchlist_manager.dart';
+import 'package:cine_vault/model/watchlist.dart';
 import 'package:cine_vault/repository/cine_repository.dart';
 import 'package:cine_vault/strategy/title_search_strategy.dart';
 import 'package:cine_vault/model/cine_item.dart';
@@ -45,3 +47,7 @@ final searchProvider = AsyncNotifierProvider<SearchNotifier, List<CineItem>>(
     return SearchNotifier();
   },
 );
+
+final watchlistProvider = NotifierProvider<WatchlistManager, Watchlist>(() {
+  return WatchlistManager();
+});

@@ -46,6 +46,23 @@ class CineItem {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'imdbID': id,
+      'Title': title,
+      'Type': type.name,
+      'Poster': posterUrl,
+      'Year': year,
+      'imdbRating': rating.toString(),
+      'Released': released,
+      'Runtime': runtime,
+      'Genre': genre,
+      'Language': language,
+      'Country': country,
+      'Plot': plot,
+    };
+  }
+
   static CineType _parseType(String? typeStr) {
     if (typeStr == 'movie') return CineType.movie;
     if (typeStr == 'series') return CineType.series;
