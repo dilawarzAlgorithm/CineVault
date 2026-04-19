@@ -4,18 +4,19 @@ import 'package:cine_vault/strategy/i_remote_data_source.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-final _baseUrl = dotenv.env['DATA_BASE_URL'] ?? '';
+String get _apiKey => dotenv.env['OMDB_API_KEY'] ?? '';
+final String _baseUrl = 'http://www.omdbapi.com/';
 
 class ApiManager extends IRemoteDataSource {
   @override
   Future<List<CineItem>> fetchData(String query) async {
-    final url = Uri.parse('$_baseUrl&$query');
+    final url = Uri.parse('$_baseUrl?apikey=$_apiKey&$query');
 
     try {
       final response = await http.get(url);
+      final data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         if (data['Response'] == 'True') {
           // If Search List (query was ?s=...)
           if (data['Search'] != null) {
@@ -26,11 +27,14 @@ class ApiManager extends IRemoteDataSource {
           else {
             return [CineItem.fromJson(data)];
           }
+        } else {
+          throw Exception(data['Error']);
         }
+      } else {
+        throw Exception('Failed to connect to OMDB API');
       }
-      return <CineItem>[];
     } catch (e) {
-      return <CineItem>[];
+      rethrow;
     }
   }
 }
