@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cine_vault/providers/provider.dart';
@@ -69,18 +70,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       height: 75,
                       child:
                           movie.posterUrl != 'N/A' && movie.posterUrl.isNotEmpty
-                          ? Image.network(
-                              movie.posterUrl,
+                          ? CachedNetworkImage(
+                              imageUrl: movie.posterUrl,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.broken_image),
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color: Colors.grey.shade800,
-                                  child: const Icon(
-                                    Icons.broken_image,
-                                    color: Colors.grey,
-                                  ),
-                                );
-                              },
                             )
                           : Container(
                               color: Colors.grey.shade800,
@@ -105,6 +101,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ),
                     onPressed: () {
                       // TODO: Add to Watchlist later!
+                      ScaffoldMessenger.of(context).clearSnackBars();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Added "${movie.title}" to watchlist.'),
