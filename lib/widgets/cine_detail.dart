@@ -57,6 +57,12 @@ class CineDetail extends ConsumerWidget {
                                 height: 180,
                                 width: 120,
                                 fit: BoxFit.cover,
+                                errorWidget: (context, url, error) => Container(
+                                  height: 180,
+                                  width: 120,
+                                  color: Colors.grey.shade800,
+                                  child: const Icon(Icons.movie, size: 50),
+                                ),
                               )
                             : Container(
                                 height: 180,
@@ -73,15 +79,21 @@ class CineDetail extends ConsumerWidget {
                             Row(
                               children: [
                                 Expanded(
-                                  child: Text(
-                                    movie.title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      minWidth: 200,
+                                    ),
+                                    child: Text(
+                                      movie.title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                      softWrap: true,
+                                    ),
                                   ),
                                 ),
                                 Spacer(),
