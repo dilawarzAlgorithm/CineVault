@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cine_vault/model/cine_episode.dart';
 import 'package:cine_vault/model/cine_item.dart';
 import 'package:cine_vault/strategy/i_remote_data_source.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -33,6 +34,31 @@ class ApiManager extends IRemoteDataSource {
       } else {
         throw Exception('Failed to connect to OMDB API');
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<CineEpisode>> fetchSeasonEpisodes(
+    String seriesId,
+    int season,
+  ) async {
+    final url = Uri.parse(
+      '$_baseUrl?apikey=$_apiKey&i=$seriesId&Season=$season',
+    );
+
+    try {
+      final response = await http.get(url);
+      final data = json.decode(response.body);
+
+      if (response.statusCode == 200 && data['Response'] == 'True') {
+        if (data['Episodes'] != null) {
+          final List episodes = data['Episodes'];
+          return episodes.map((json) => CineEpisode.fromJson(json)).toList();
+        }
+      }
+      return <CineEpisode>[];
     } catch (e) {
       rethrow;
     }

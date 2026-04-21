@@ -33,7 +33,8 @@ class PersistenceManager extends ILocalDataSource {
         Genre TEXT,
         Language TEXT,
         Country TEXT,
-        Plot TEXT
+        Plot TEXT,
+        totalSeasons TEXT DEFAULT "N/A"
       )
     ''');
   }

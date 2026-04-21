@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cine_vault/enum/cine_type.dart';
 import 'package:cine_vault/providers/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +27,8 @@ class CineDetail extends ConsumerWidget {
         error: (err, stack) =>
             Center(child: Text('Failed to load movie details.')),
         data: (movie) {
+          final totalSeasons = int.tryParse(movie.totalSeasons) ?? 0;
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +44,6 @@ class CineDetail extends ConsumerWidget {
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -222,7 +224,135 @@ class CineDetail extends ConsumerWidget {
                     ),
                   ),
                 ),
-
+                const SizedBox(height: 24),
+                if (movie.type == CineType.series && totalSeasons > 0)
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final selectedSeason = ref.watch(
+                        selectedSeasonProvider(movie.id),
+                      );
+                      final episodesAsync = ref.watch(
+                        seasonEpisodesProvider((movie.id, selectedSeason)),
+                      );
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Episodes',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(fontSize: 20),
+                                ),
+                                DropdownButton<int>(
+                                  value: selectedSeason,
+                                  dropdownColor: Theme.of(
+                                    context,
+                                  ).colorScheme.surface,
+                                  items:
+                                      List.generate(
+                                            totalSeasons,
+                                            (index) => index + 1,
+                                          )
+                                          .map(
+                                            (seasonNum) => DropdownMenuItem(
+                                              value: seasonNum,
+                                              child: Text('Season $seasonNum'),
+                                            ),
+                                          )
+                                          .toList(),
+                                  onChanged: (newSeason) {
+                                    if (newSeason != null) {
+                                      ref
+                                              .read(
+                                                selectedSeasonProvider(
+                                                  movie.id,
+                                                ).notifier,
+                                              )
+                                              .state =
+                                          newSeason;
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          episodesAsync.when(
+                            loading: () => const Padding(
+                              padding: EdgeInsets.all(32.0),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            error: (e, st) => const Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Center(
+                                child: Text('Failed to load episodes.'),
+                              ),
+                            ),
+                            data: (episodes) {
+                              if (episodes.isEmpty) {
+                                return const Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                    child: Text('No episodes found.'),
+                                  ),
+                                );
+                              }
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: episodes.length,
+                                itemBuilder: (context, index) {
+                                  final ep = episodes[index];
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.surface,
+                                      child: Text(
+                                        ep.episodeNumber,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    title: Text(
+                                      ep.title,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text('Released: ${ep.released}'),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(ep.imdbRating),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 const SizedBox(height: 40),
               ],
             ),

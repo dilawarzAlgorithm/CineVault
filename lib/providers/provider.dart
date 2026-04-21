@@ -1,12 +1,14 @@
 import 'package:cine_vault/managers/api_manager.dart';
 import 'package:cine_vault/managers/persistence_manager.dart';
 import 'package:cine_vault/managers/watchlist_manager.dart';
+import 'package:cine_vault/model/cine_episode.dart';
 import 'package:cine_vault/model/watchlist.dart';
 import 'package:cine_vault/repository/cine_repository.dart';
 import 'package:cine_vault/strategy/id_search_strategy.dart';
 import 'package:cine_vault/strategy/title_search_strategy.dart';
 import 'package:cine_vault/model/cine_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 final apiProvider = Provider((ref) => ApiManager());
 final dbProvider = Provider((ref) => PersistenceManager());
@@ -29,6 +31,17 @@ final movieDetailProvider = FutureProvider.family<CineItem, String>((
   final results = await strategy.search('$id&plot=full', api);
   return results.first;
 });
+
+final selectedSeasonProvider = StateProvider.family<int, String>(
+  (ref, id) => 1,
+);
+
+final seasonEpisodesProvider =
+    FutureProvider.family<List<CineEpisode>, (String, int)>((ref, args) async {
+      final (seriesId, season) = args;
+      final repo = ref.read(cineRepositoryProvider);
+      return await repo.fetchSeasonEpisodes(seriesId, season);
+    });
 
 // Used AsyncValue to automatically handle Loading, Success, and Error states!
 class SearchNotifier extends AsyncNotifier<List<CineItem>> {

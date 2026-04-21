@@ -14,6 +14,7 @@ class CineItem {
     required this.language,
     required this.country,
     required this.plot,
+    this.totalSeasons = 'N/A',
   });
 
   final String id;
@@ -28,6 +29,7 @@ class CineItem {
   final String language;
   final String country;
   final String plot;
+  final String totalSeasons;
 
   factory CineItem.fromJson(Map<String, dynamic> json) {
     return CineItem(
@@ -43,6 +45,7 @@ class CineItem {
       language: json['Language'] ?? '',
       country: json['Country'] ?? '',
       plot: json['Plot'] ?? '',
+      totalSeasons: json['totalSeasons'] ?? 'N/A',
     );
   }
 
@@ -60,6 +63,7 @@ class CineItem {
       'Language': language,
       'Country': country,
       'Plot': plot,
+      'totalSeasons': totalSeasons,
     };
   }
 

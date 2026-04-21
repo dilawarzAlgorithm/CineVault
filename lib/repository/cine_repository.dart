@@ -1,3 +1,4 @@
+import 'package:cine_vault/model/cine_episode.dart';
 import 'package:cine_vault/model/cine_item.dart';
 import 'package:cine_vault/model/watchlist.dart';
 import 'package:cine_vault/strategy/i_local_data_source.dart';
@@ -25,6 +26,13 @@ class CineRepository {
 
   Future<void> saveWatchlist(Watchlist list) async {
     await db.saveList(list);
+  }
+
+  Future<List<CineEpisode>> fetchSeasonEpisodes(
+    String seriesId,
+    int season,
+  ) async {
+    return api.fetchSeasonEpisodes(seriesId, season);
   }
 
   Future<Watchlist?> loadWatchlist(String listId) async {
