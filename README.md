@@ -6,7 +6,7 @@ Beyond being a functional movie tracker, CineVault serves as a **technical showc
 
 ## ✨ Key Features
 
-- **Curated Home Feed:** Netflix-style horizontal carousels that dynamically fetch and cache trending categories (Action, Sci-Fi, Animation).
+- **Curated Home Feed:** Netflix-style horizontal carousels that dynamically fetch and cache discovery categories (e.g., Marvel, Pixar, Sci-Fi) using Riverpod caching.
 
 - **Deep Search Engine:** Search the OMDb database for any movie, series, or episode.
 
