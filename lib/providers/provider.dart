@@ -43,6 +43,14 @@ final seasonEpisodesProvider =
       return await repo.fetchSeasonEpisodes(seriesId, season);
     });
 
+final curatedMoviesProvider = FutureProvider.family<List<CineItem>, String>((
+  ref,
+  query,
+) async {
+  final repository = ref.read(cineRepositoryProvider);
+  return await repository.executeSearch(query);
+});
+
 // Used AsyncValue to automatically handle Loading, Success, and Error states!
 class SearchNotifier extends AsyncNotifier<List<CineItem>> {
   CineRepository get _repository => ref.read(cineRepositoryProvider);
