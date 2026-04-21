@@ -54,13 +54,13 @@ The `WatchlistManager` enforces business rules (like preventing duplicate movie 
 
 ## 🚀 Getting Started
 
-1. Prerequisites
+1. **Prerequisites**
 
 Flutter SDK installed on your machine.
 
 A free API key from OMDb API.
 
-2. Environment Setup
+2. **Environment Setup**
 
 Create a `.env` file in the `lib/` directory of your project:
 
@@ -74,7 +74,7 @@ Add your OMDb API key to the `.env` file:
 OMDB_API_KEY=your_api_key_here
 ```
 
-3. Installation
+3. **Installation**
 
 Clone the repository and install dependencies:
 
@@ -84,7 +84,7 @@ cd cine_vault
 flutter pub get
 ```
 
-4. Run the App
+4. **Run the App**
 
 ```bash
 flutter run
@@ -94,7 +94,7 @@ flutter run
 
 ```bash
 lib/
-├── entity/ # Core data models (CineItem, Watchlist)
+├── model/ # Core data models (CineItem, Watchlist)
 ├── enum/ # Strict typing (CineType)
 ├── managers/ # Business logic (ApiManager, PersistenceManager, WatchlistManager)
 ├── providers/ # Riverpod Dependency Injection and State Notifiers
